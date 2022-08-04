@@ -48,7 +48,7 @@ class PurchasePlan(models.Model):
     _description = 'Purchase Plan'
 
     name = fields.Char(string="Name", required=False, copy=False, default='New')
-    sequence = fields.Integer(string="seq", required=False,default=1 )
+    sequence = fields.Integer(string="seq", required=False,default=0 )
 
     month = fields.Selection(MONTH_SELECTION, required=True)  # ,default=str(fields.Date.today().month)
 
