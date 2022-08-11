@@ -150,22 +150,13 @@ class AccountMove(models.Model):
             values = rec._get_invoiced_lot_values()
             for line in rec.invoice_line_ids:
                 if line.product_id.is_consignment:
-                    print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww values',values)
                     if values:
-                        print('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
                         for value in values:
-                            print('pppppppppppppppppppppppppppppppppppppp',value['product_id'])
-                            print('pppppppppppppppppppppppppppppppppppppp',value['product_name'])
-                            print('ddddddddddddddddddddddddddddddddddd',line.product_id.id)
-                            print('ddddddddddddddddddddddddddddddddddd',line.product_id.name)
+
                             if value['product_id'] == line.product_id.id and value['lot_id']:
-                                print('sssssssssssssssssssssssssssssssssssss')
-                                print('int(line[lot_id])',int(line['lot_id']))
                                 lot=self.env['stock.production.lot'].sudo().search([('id','=',int(value['lot_id']))],limit=1)
-                                print('lot',lot)
                                 line.lot_id=lot.id
                                 vendor = lot.vendor_id
-                        print('vendor',vendor)
                     if vendor:
                         amount = line.price_unit * line.quantity * 93 / 100
                         entry = self.env['account.move'].sudo().create({
