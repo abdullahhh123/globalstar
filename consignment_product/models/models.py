@@ -107,6 +107,15 @@ class AccountMove(models.Model):
     consignment_id = fields.Many2one(comodel_name="account.move", string="Consignment", required=False, )
 
 
+
+    def button_draft(self):
+        res=super(AccountMove, self).button_draft()
+        consignments = self.env['account.move'].sudo().search([('consignment_id','=',self.id)])
+        for rec in consignments:
+            rec.button_cancel()
+        return res
+
+
     def test_get_invoiced_lot_values(self):
         for rec in self:
             rec._get_invoiced_lot_values()
