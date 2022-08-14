@@ -57,8 +57,8 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     is_consignment = fields.Boolean(string="Is Consignment",  )
-    is_great_a = fields.Boolean(string="Great A",  )
-    is_great_b = fields.Boolean(string="Great B",  )
+    is_great_a = fields.Boolean(string="Grade A",  )
+    is_great_b = fields.Boolean(string="Grade B",  )
     limit_discount = fields.Float(string="Limit Discount",  required=False, )
 
 
