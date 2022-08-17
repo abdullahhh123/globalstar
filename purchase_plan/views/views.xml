@@ -54,11 +54,14 @@
                     <field name="historical_actual_cost"/>
                     <field name="purchase_id"/>
                     <field name="po_date"/>
+                    <field name="confirm_date"/>
+                    <field name="po_state"/>
                     <field name="ordered_qty"/>
                     <field name="expected_arrival_date"/>
                     <field name="actual_arrival_date"/>
                     <field name="loading_date"/>
                     <field name="payment_term_id"/>
+                    <field name="avg_die"/>
                 </tree>
             </field>
         </record>
@@ -95,11 +98,14 @@
                                 <field name="historical_actual_cost"/>
                                 <field name="purchase_id"/>
                                 <field name="po_date"/>
+                                <field name="confirm_date"/>
+                                <field name="po_state"/>
                                 <field name="ordered_qty"/>
                                 <field name="expected_arrival_date"/>
                                 <field name="actual_arrival_date"/>
                                 <field name="loading_date"/>
                                 <field name="payment_term_id"/>
+                                <field name="avg_die"/>
                             </group>
                         </group>
                     </sheet>

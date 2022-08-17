@@ -79,11 +79,20 @@ class PurchasePlan(models.Model):
                                           related='product_id.standard_price')
     purchase_id = fields.Many2one(comodel_name="purchase.order", string="Purchase", required=False, )
     po_date = fields.Date(string="Po Date", required=False, )
+    confirm_date = fields.Datetime(string="Confirm Date", required=False,related='purchase_id.date_approve' )
+    po_state = fields.Char(string="Po State", required=False,related='purchase_id.state' )
+    po_state = fields.Selection(string="Po State", selection=[('draft', 'RFQ'),
+        ('sent', 'RFQ Sent'),
+        ('to approve', 'To Approve'),
+        ('purchase', 'Purchase Order'),
+        ('done', 'Locked'),
+        ('cancel', 'Cancelled'), ], required=False, )
     ordered_qty = fields.Float(string="Ordered Qty", required=False, )
     expected_arrival_date = fields.Datetime(string="Expected Arrival Date", required=False, )
-    actual_arrival_date = fields.Date(string="Actual Arrival Date", required=False, )
+    actual_arrival_date = fields.Datetime(string="Actual Arrival Date", required=False,related='purchase_id.effective_date' )
     loading_date = fields.Date(string="Loading Date", required=False, )
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Terms', readonly=False)
+    avg_die = fields.Integer(string="Avg Die", required=False, )
 
     @api.model
     def create(self, vals):
@@ -117,33 +126,35 @@ class PurchasePlan(models.Model):
         if len(vendor) > 1:
             raise UserError("Warning , Please choose one vendor")
         for rec in self:
-            order_linee.append((0, 0, {
-                'plan_id': rec.id,
-                'product_id': rec.product_id.id,
-                'name': rec.product_id.name,
-                'product_qty': rec.planned_qty,
-                'product_uom': rec.uom_id.id,
-                'date_planned': fields.datetime.now(),
-                # 'attachmentt_ids': [a.id for a in line.attachment_ids],
-                # 'purchase_requests_id': self.id,
-                # 'purchase_request_line': [line.id],
+            if not rec.purchase_id:
+                order_linee.append((0, 0, {
+                    'plan_id': rec.id,
+                    'product_id': rec.product_id.id,
+                    'name': rec.product_id.name,
+                    'product_qty': rec.planned_qty,
+                    'product_uom': rec.uom_id.id,
+                    'date_planned': fields.datetime.now(),
+                    # 'attachmentt_ids': [a.id for a in line.attachment_ids],
+                    # 'purchase_requests_id': self.id,
+                    # 'purchase_request_line': [line.id],
 
-            }))
-            print("order", order_linee)
-        purchase_order = self.env['purchase.order'].sudo().create({
-            "order_line": order_linee,
-            "partner_id": vendor[0],
-            "planned_unplanned": 'planned',
+                }))
+                print("order", order_linee)
+            purchase_order = self.env['purchase.order'].sudo().create({
+                "order_line": order_linee,
+                "partner_id": vendor[0],
+                "planned_unplanned": 'planned',
 
-        })
-        print('purchase_order', purchase_order)
-        for rec in self:
-            rec.purchase_id = purchase_order.id
-            rec.po_date = fields.date.today()
-            rec.ordered_qty = rec.planned_qty
-            rec.expected_arrival_date = purchase_order.date_planned
-            rec.loading_date = purchase_order.loading_date
-            rec.payment_term_id = purchase_order.payment_term_id.id
+            })
+            print('purchase_order', purchase_order)
+            for rec in self:
+                if not rec.purchase_id:
+                    rec.purchase_id = purchase_order.id
+                    rec.po_date = fields.date.today()
+                    rec.ordered_qty = rec.planned_qty
+                    rec.expected_arrival_date = purchase_order.date_planned
+                    rec.loading_date = purchase_order.loading_date
+                    rec.payment_term_id = purchase_order.payment_term_id.id
 
         # return {
         #     'name': 'R F Q',
