@@ -128,18 +128,18 @@ class PurchasePlan(models.Model):
         for rec in self:
             if rec.purchase_id:
                 raise UserError("Warning , There are purchase plan have a purchase order")
-                order_linee.append((0, 0, {
-                    'plan_id': rec.id,
-                    'product_id': rec.product_id.id,
-                    'name': rec.product_id.name,
-                    'product_qty': rec.planned_qty,
-                    'product_uom': rec.uom_id.id,
-                    'date_planned': fields.datetime.now(),
-                    # 'attachmentt_ids': [a.id for a in line.attachment_ids],
-                    # 'purchase_requests_id': self.id,
-                    # 'purchase_request_line': [line.id],
+            order_linee.append((0, 0, {
+                'plan_id': rec.id,
+                'product_id': rec.product_id.id,
+                'name': rec.product_id.name,
+                'product_qty': rec.planned_qty,
+                'product_uom': rec.uom_id.id,
+                'date_planned': fields.datetime.now(),
+                # 'attachmentt_ids': [a.id for a in line.attachment_ids],
+                # 'purchase_requests_id': self.id,
+                # 'purchase_request_line': [line.id],
 
-                }))
+            }))
         purchase_order = self.env['purchase.order'].sudo().create({
             "order_line": order_linee,
             "partner_id": vendor[0],
@@ -148,14 +148,14 @@ class PurchasePlan(models.Model):
         })
         print('purchase_order', purchase_order)
         for rec in self:
-            if not rec.purchase_id:
-                rec.purchase_id = purchase_order.id
-                rec.po_date = fields.date.today()
-                rec.ordered_qty = rec.planned_qty
-                rec.expected_arrival_date = purchase_order.date_planned
-                rec.loading_date = purchase_order.loading_date
-                rec.po_state = purchase_order.state
-                rec.payment_term_id = purchase_order.payment_term_id.id
+
+            rec.purchase_id = purchase_order.id
+            rec.po_date = fields.date.today()
+            rec.ordered_qty = rec.planned_qty
+            rec.expected_arrival_date = purchase_order.date_planned
+            rec.loading_date = purchase_order.loading_date
+            rec.po_state = purchase_order.state
+            rec.payment_term_id = purchase_order.payment_term_id.id
 
         # return {
         #     'name': 'R F Q',
