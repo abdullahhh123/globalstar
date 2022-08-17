@@ -80,13 +80,13 @@ class PurchasePlan(models.Model):
     purchase_id = fields.Many2one(comodel_name="purchase.order", string="Purchase", required=False, )
     po_date = fields.Date(string="Po Date", required=False, )
     confirm_date = fields.Datetime(string="Confirm Date", required=False,related='purchase_id.date_approve' )
-    po_state = fields.Char(string="Po State", required=False,related='purchase_id.state' )
+    # po_state = fields.Char(string="Po State", required=False,related='purchase_id.state' )
     po_state = fields.Selection(string="Po State", selection=[('draft', 'RFQ'),
         ('sent', 'RFQ Sent'),
         ('to approve', 'To Approve'),
         ('purchase', 'Purchase Order'),
         ('done', 'Locked'),
-        ('cancel', 'Cancelled'), ], required=False, )
+        ('cancel', 'Cancelled'), ], required=False,related='purchase_id.state' )
     ordered_qty = fields.Float(string="Ordered Qty", required=False, )
     expected_arrival_date = fields.Datetime(string="Expected Arrival Date", required=False, )
     actual_arrival_date = fields.Datetime(string="Actual Arrival Date", required=False,related='purchase_id.effective_date' )
@@ -139,22 +139,22 @@ class PurchasePlan(models.Model):
                     # 'purchase_request_line': [line.id],
 
                 }))
-                print("order", order_linee)
-            purchase_order = self.env['purchase.order'].sudo().create({
-                "order_line": order_linee,
-                "partner_id": vendor[0],
-                "planned_unplanned": 'planned',
+        purchase_order = self.env['purchase.order'].sudo().create({
+            "order_line": order_linee,
+            "partner_id": vendor[0],
+            "planned_unplanned": 'planned',
 
-            })
-            print('purchase_order', purchase_order)
-            for rec in self:
-                if not rec.purchase_id:
-                    rec.purchase_id = purchase_order.id
-                    rec.po_date = fields.date.today()
-                    rec.ordered_qty = rec.planned_qty
-                    rec.expected_arrival_date = purchase_order.date_planned
-                    rec.loading_date = purchase_order.loading_date
-                    rec.payment_term_id = purchase_order.payment_term_id.id
+        })
+        print('purchase_order', purchase_order)
+        for rec in self:
+            if not rec.purchase_id:
+                rec.purchase_id = purchase_order.id
+                rec.po_date = fields.date.today()
+                rec.ordered_qty = rec.planned_qty
+                rec.expected_arrival_date = purchase_order.date_planned
+                rec.loading_date = purchase_order.loading_date
+                rec.po_state = purchase_order.state
+                rec.payment_term_id = purchase_order.payment_term_id.id
 
         # return {
         #     'name': 'R F Q',
