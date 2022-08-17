@@ -127,6 +127,7 @@ class PurchasePlan(models.Model):
             raise UserError("Warning , Please choose one vendor")
         for rec in self:
             if not rec.purchase_id:
+                raise UserError("Warning , There are purchase plan have a purchase order")
                 order_linee.append((0, 0, {
                     'plan_id': rec.id,
                     'product_id': rec.product_id.id,
