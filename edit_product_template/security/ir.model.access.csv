@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_variety,variety.variety,model_variety,base.group_user,1,1,1,1
+access_origin,origin.origin,model_origin,base.group_user,1,1,1,1
+access_type,type.type,model_type,base.group_user,1,1,1,1
