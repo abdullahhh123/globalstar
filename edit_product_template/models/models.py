@@ -24,7 +24,7 @@ class EditProductTemplate(models.Model):
     net_weight = fields.Float(string="Net Weight",  required=False, )
     brand = fields.Char(string="Brand", required=False, )
     type_id = fields.Many2one(comodel_name="type", string="Type", required=False, )
-    purchase_indicator = fields.Selection(string="Purchase Indicator", selection=[('purchasable', 'Purchasable'), ('un_purchasable', 'UnPurchasable'), ], required=False, )
+    purchase_indicator = fields.Selection(string="Purchase Indicator", selection=[('Purchasable', 'Purchasable'), ('Un_purchasable', 'UnPurchasable'), ], required=False, )
     serial_code = fields.Char(string="Serial Code", required=False,digits=(5, 2), )
     identification = fields.Char(string="Identification", required=False, )
     code = fields.Char(string="Code", required=False,copy=False )
@@ -35,7 +35,11 @@ class EditProductTemplate(models.Model):
 
     def button_generate_name(self):
         for rec in self:
-            rec.name=str(rec.categ_id.name)+' '+str(rec.variety_id.name)+' '+' - '+'class'+str(rec.class_class)+' - '+'size'+str(rec.size)+' - '+str(rec.origin_id.name[3]) if rec.origin_id else ''+' - '+str(rec.uom_id.name)+str(rec.brand)+' - '+'A' if rec.is_great_a else 'B'
+            if rec.origin_id:
+                print('ddddddddddddddddddd',str(rec.origin_id.name[0:3]))
+                rec.name=str(rec.categ_id.name)+' '+str(rec.variety_id.name)+' '+' - '+'class'+str(rec.class_class)+' - '+'size'+str(rec.size)+' - '+str(rec.origin_id.name[0:3]) +' - '+str(rec.uom_id.name)+str(rec.brand)+' - '+'A' if rec.is_great_a else 'B'
+            else:
+                rec.name=str(rec.categ_id.name)+' '+str(rec.variety_id.name)+' '+' - '+'class'+str(rec.class_class)+' - '+'size'+str(rec.size)+' - '+str(rec.uom_id.name)+str(rec.brand)+' - '+'A' if rec.is_great_a else 'B'
             if rec.is_great_a :
                 rec.identification = 'A' + str(rec.type_id.name[0]) + str(rec.purchase_indicator[0]) + str(
                     rec.categ_id.code)
