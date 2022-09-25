@@ -44,7 +44,7 @@
                     <field name="serial_code"/>
                     <field name="identification" readonly="1" force_save="1"/>
                     <field name="code" readonly="1" force_save="1"/>
-                    <field name="sequence" invisible="1"/>
+                    <field name="sequence" invisible="0"/>
                 </xpath>
 
             </field>
