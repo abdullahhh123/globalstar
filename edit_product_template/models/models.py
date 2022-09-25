@@ -31,17 +31,35 @@ class EditProductTemplate(models.Model):
     sequence = fields.Integer(string="Sequence", required=False,default=0,copy=False )
 
 
-    @api.onchange('categ_id','variety_id','class_class','size','origin_id','uom_id','brand','is_great_a','is_great_b')
-    def get_name_all(self):
+
+
+    def button_generate_name(self):
         for rec in self:
             rec.name=str(rec.categ_id.name)+' '+str(rec.variety_id.name)+' '+' - '+'class'+str(rec.class_class)+' - '+'size'+str(rec.size)+' - '+str(rec.origin_id.name[3]) if rec.origin_id else ''+' - '+str(rec.uom_id.name)+str(rec.brand)+' - '+'A' if rec.is_great_a else 'B'
-
-
-    @api.onchange('is_great_a','is_great_b','type_id','purchase_indicator','categ_id.code')
-    def get_identification(self):
-        for rec in self:
-            rec.identification = 'A' + str(rec.type_id.name[2]) + str(rec.purchase_indicator[2])+str(rec.categ_id.code) if rec.is_great_a else 'B' + str(rec.type_id.name[2]) + str(rec.purchase_indicator[2])+str(rec.categ_id.code)
+            if rec.is_great_a :
+                rec.identification = 'A' + str(rec.type_id.name[0]) + str(rec.purchase_indicator[0]) + str(
+                    rec.categ_id.code)
+            elif rec.is_great_b:
+                print('rec.type_id.name',rec.type_id.name)
+                print(str(rec.type_id.name[0]),'str(rec.type_id.name[0])')
+                rec.identification = 'B' + str(rec.type_id.name[0]) + str(
+                    rec.purchase_indicator[0]) + str(rec.categ_id.code)
             rec.get_code()
+
+
+
+
+    # @api.onchange('categ_id','variety_id','class_class','size','origin_id','uom_id','brand','is_great_a','is_great_b')
+    # def get_name_all(self):
+    #     for rec in self:
+    #         rec.name=str(rec.categ_id.name)+' '+str(rec.variety_id.name)+' '+' - '+'class'+str(rec.class_class)+' - '+'size'+str(rec.size)+' - '+str(rec.origin_id.name[3]) if rec.origin_id else ''+' - '+str(rec.uom_id.name)+str(rec.brand)+' - '+'A' if rec.is_great_a else 'B'
+
+
+    # @api.onchange('is_great_a','is_great_b','type_id','purchase_indicator','categ_id.code')
+    # def get_identification(self):
+    #     for rec in self:
+    #         rec.identification = 'A' + str(rec.type_id.name[2]) + str(rec.purchase_indicator[2])+str(rec.categ_id.code) if rec.is_great_a else 'B' + str(rec.type_id.name[2]) + str(rec.purchase_indicator[2])+str(rec.categ_id.code)
+    #         rec.get_code()
 
 
     @api.onchange('identification')
