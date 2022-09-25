@@ -21,6 +21,11 @@
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
 
+                <xpath expr="//header" position="inside">
+                    <!-- Add your fields or attributes here -->
+                    <button name="button_generate_name" type="object" string="Generate Name"/>
+                </xpath>
+
                 <xpath expr="//field[@name='product_variant_id']" position="after">
                     <!-- Add your fields or attributes here -->
 
