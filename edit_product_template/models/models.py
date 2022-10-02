@@ -24,7 +24,7 @@ class EditProductTemplate(models.Model):
     net_weight = fields.Float(string="Net Weight",  required=False, )
     brand = fields.Char(string="Brand", required=False, )
     type_id = fields.Many2one(comodel_name="type", string="Type", required=False, )
-    purchase_indicator = fields.Selection(string="Purchase Indicator", selection=[('Purchasable', 'Purchasable'), ('Un_purchasable', 'UnPurchasable'), ], required=False, )
+    purchase_indicator = fields.Selection(string="Purchase Indicator", selection=[('purchasable', 'Purchasable'), ('un_purchasable', 'UnPurchasable'), ], required=False, )
     serial_code = fields.Char(string="Serial Code", required=False,digits=(5, 2), )
     identification = fields.Char(string="Identification", required=False, )
     code = fields.Char(string="Code", required=False,copy=False )
@@ -92,8 +92,8 @@ class EditProductProduct(models.Model):
     net_weight = fields.Float(string="Net Weight", required=False, )
     brand = fields.Char(string="Brand", required=False, )
     type_id = fields.Many2one(comodel_name="type", string="Type", required=False, )
-    purchase_indicator = fields.Selection(string="Purchase Indicator", selection=[('Purchasable', 'Purchasable'), (
-    'Un_purchasable', 'UnPurchasable'), ], required=False, )
+    purchase_indicator = fields.Selection(string="Purchase Indicator", selection=[('purchasable', 'Purchasable'), (
+    'un_purchasable', 'UnPurchasable'), ], required=False, )
     serial_code = fields.Char(string="Serial Code", required=False, digits=(5, 2), )
     identification = fields.Char(string="Identification", required=False, )
     code = fields.Char(string="Code", required=False, copy=False)
