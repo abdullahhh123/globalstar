@@ -1,12 +1,12 @@
 <odoo>
     <data>
 
-<!--        <record id="warehouse_user_global_rule" model="ir.rule">-->
-<!--            <field name="name">Warehouse User GlobalStar</field>-->
-<!--            <field name="model_id" ref="stock.model_stock_warehouse"/>-->
-<!--            <field eval="True" name="global"/>-->
-<!--            <field name="domain_force">[('id', '=', user.property_warehouse_id.id)]</field>-->
-<!--        </record>-->
+        <!--        <record id="warehouse_user_global_rule" model="ir.rule">-->
+        <!--            <field name="name">Warehouse User GlobalStar</field>-->
+        <!--            <field name="model_id" ref="stock.model_stock_warehouse"/>-->
+        <!--            <field eval="True" name="global"/>-->
+        <!--            <field name="domain_force">[('id', '=', user.property_warehouse_id.id)]</field>-->
+        <!--        </record>-->
 
         <record id="stock_picking_type_user_global_rule" model="ir.rule">
             <field name="name">Stock Picking Type User GlobalStar</field>
@@ -22,12 +22,12 @@
             <field name="domain_force">[('invoice_user_id.id', '=', user.id)]</field>
         </record>
 
-<!--        <record id="contact_person_global_rule" model="ir.rule">-->
-<!--            <field name="name">Contact Person GlobalStar</field>-->
-<!--            <field name="model_id" ref="base.model_res_partner"/>-->
-<!--            <field eval="True" name="global"/>-->
-<!--            <field name="domain_force">[('contact_person_id.id', '=', user.id)]</field>-->
-<!--        </record>-->
+        <!--        <record id="contact_person_global_rule" model="ir.rule">-->
+        <!--            <field name="name">Contact Person GlobalStar</field>-->
+        <!--            <field name="model_id" ref="base.model_res_partner"/>-->
+        <!--            <field eval="True" name="global"/>-->
+        <!--            <field name="domain_force">[('contact_person_id.id', '=', user.id)]</field>-->
+        <!--        </record>-->
 
     </data>
 </odoo>

@@ -55,6 +55,10 @@
                 <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
                     <attribute name="groups">globalstar_customization.group_confirm_order_globalstar</attribute>
                 </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('contact_person_id', '=', uid)]</attribute>
+                </xpath>
             </field>
         </record>
 
@@ -92,19 +96,6 @@
                 <p>
                     Odoo helps you track all activities related to your contacts.
                 </p>
-            </field>
-        </record>
-
-        <record id="sale_order_global_inherit" model="ir.ui.view">
-            <field name="name">sale.order.global.inherit</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="arch" type="xml">
-
-                <xpath expr="//field[@name='partner_id']" position="attributes">
-                    <attribute name="domain">[('contact_person_id', '=', uid)]</attribute>
-                </xpath>
-
             </field>
         </record>
 
