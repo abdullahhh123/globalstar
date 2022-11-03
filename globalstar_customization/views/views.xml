@@ -1,0 +1,122 @@
+<odoo>
+    <data> 
+
+        <record id="view_account_form_global_inherit" model="ir.ui.view">
+            <field name="name">view_account_form.global.inherit</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='allowed_journal_ids']" position="after">
+                    <field name="customer_discount"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_partner_form_global" model="ir.ui.view">
+            <field name="name">view_partner_form_global</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="c_r"/>
+                    <field name="contact_person_id"/>
+                    <field name="invoice_percentage"/>
+                </xpath>
+
+                <xpath expr="//span[@name='address_name']" position="before">
+                    <field name="nickname"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="res_partner_search_global" model="ir.ui.view">
+            <field name="name">res.partner.search.global</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="before">
+                    <field name="nickname"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_global_inherit" model="ir.ui.view">
+            <field name="name">Sale Order GlobalStar</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+                    <attribute name="groups">globalstar_customization.group_confirm_order_globalstar</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+                    <attribute name="groups">globalstar_customization.group_confirm_order_globalstar</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">[('contact_person_id', '=', uid)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--<record id="account.res_partner_action_customer" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('contact_person_id', '=', uid)]</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer',
+                'default_is_company': True, 'default_customer_rank': 1}
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new customer in your address book
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to a customer.
+                </p>
+            </field>
+        </record>-->
+
+        <!--<record id="contacts.action_contacts" model="ir.actions.act_window">
+            <field name="name">Contacts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="domain">[('contact_person_id', '=', uid)]</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="context">{'default_is_company': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Contact in your address book
+                </p>
+                <p>
+                    Odoo helps you track all activities related to your contacts.
+                </p>
+            </field>
+        </record>-->
+
+<!--        <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">-->
+<!--            <field name="name">Invoices</field>-->
+<!--            <field name="res_model">account.move</field>-->
+<!--            <field name="view_mode">tree,kanban,form</field>-->
+<!--            <field name="view_id" ref="account.view_out_invoice_tree"/>-->
+<!--            <field name="search_view_id" ref="account.view_account_invoice_filter"/>-->
+<!--            <field name="groups" eval="[(4, ref('.group_sale_salesman'))]"/>-->
+<!--            <field name="domain">[('move_type', '=', 'out_invoice'), ('invoice_user_id', '=', uid)]</field>-->
+<!--            <field name="context">{'default_move_type': 'out_invoice'}</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="o_view_nocontent_smiling_face">-->
+<!--                    Create a customer invoice-->
+<!--                </p>-->
+<!--                <p>-->
+<!--                    Create invoices, register payments and keep track of the discussions with your customers.-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

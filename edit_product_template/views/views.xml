@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_category_add_invisible_id" model="ir.ui.view">
+            <field name="name">product.category.add.invisible</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name="code"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="product_template_add_invisible_id" model="ir.ui.view">
+            <field name="name">product.template.add.invisible</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header" position="inside">
+                    <!-- Add your fields or attributes here -->
+                    <button name="button_generate_name" type="object" string="Generate Name"/>
+                </xpath>
+
+                <xpath expr="//field[@name='product_variant_id']" position="after">
+                    <!-- Add your fields or attributes here -->
+
+                    <field name="variety_id"/>
+                    <field name="class_class"/>
+                    <field name="size"/>
+                    <field name="origin_id"/>
+                    <field name="net_weight"/>
+                    <field name="brand"/>
+                    <field name="type_id"/>
+
+                </xpath>
+                 <xpath expr="//field[@name='uom_po_id']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name="purchase_indicator"/>
+                    <field name="serial_code"/>
+                    <field name="identification" readonly="1" force_save="1"/>
+                    <field name="code" readonly="1" force_save="1"/>
+                    <field name="sequence" invisible="0"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
