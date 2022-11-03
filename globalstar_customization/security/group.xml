@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_confirm_order_globalstar" model="res.groups">
+            <field name="name">Confirm Orders</field>
+        </record>
+
+    </data>
+</odoo>
