@@ -1,5 +1,5 @@
 <odoo>
-    <data>
+    <data> 
 
         <record id="view_account_form_global_inherit" model="ir.ui.view">
             <field name="name">view_account_form.global.inherit</field>
@@ -62,7 +62,7 @@
             </field>
         </record>
 
-        <record id="account.res_partner_action_customer" model="ir.actions.act_window">
+        <!--<record id="account.res_partner_action_customer" model="ir.actions.act_window">
             <field name="name">Customers</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
@@ -79,9 +79,9 @@
                     Odoo helps you easily track all activities related to a customer.
                 </p>
             </field>
-        </record>
+        </record>-->
 
-        <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <!--<record id="contacts.action_contacts" model="ir.actions.act_window">
             <field name="name">Contacts</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
@@ -97,7 +97,7 @@
                     Odoo helps you track all activities related to your contacts.
                 </p>
             </field>
-        </record>
+        </record>-->
 
 <!--        <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">-->
 <!--            <field name="name">Invoices</field>-->
