@@ -10,7 +10,6 @@ class PartnerGlobal(models.Model):
     contact_person_id = fields.Many2one(comodel_name="res.users", default=lambda self: self.env.user)
     c_r = fields.Char(string="C.R #")
     nickname = fields.Char()
-    invoice_percentage = fields.Float()
 
 
 class AccountPaymentGlobal(models.Model):
@@ -30,8 +29,6 @@ class AccountPaymentGlobal(models.Model):
 
 class AccountMoveGlobal(models.Model):
     _inherit = 'account.move'
-
-    discount_move_id = fields.Many2one(comodel_name="account.move")
 
     @api.model
     def _search_default_journal(self, journal_types):
@@ -71,18 +68,6 @@ class AccountMoveGlobal(models.Model):
             m.suitable_journal_ids = self.env['account.journal'].search(domain)
 
 
-class AccountMoveLineGlobal(models.Model):
-    _inherit = 'account.move.line'
-
-    is_partner_disc = fields.Boolean()
-
-
-class AccountAccountGlobal(models.Model):
-    _inherit = 'account.account'
-
-    customer_discount = fields.Selection(selection=[('debit', 'Debit'), ('credit', 'Credit')])
-
-
 class ResUsersGlobal(models.Model):
     _inherit = 'res.users'
 
@@ -98,4 +83,3 @@ class AccountJournalGlobal(models.Model):
     _inherit = 'account.journal'
 
     specific_users_ids = fields.Many2many(comodel_name="res.users", relation="journal_user_rel", string="Users")
-    partner_discount = fields.Boolean()
