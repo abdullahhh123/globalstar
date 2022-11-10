@@ -1,13 +1,6 @@
 <odoo>
     <data>
 
-        <!--        <record id="warehouse_user_global_rule" model="ir.rule">-->
-        <!--            <field name="name">Warehouse User GlobalStar</field>-->
-        <!--            <field name="model_id" ref="stock.model_stock_warehouse"/>-->
-        <!--            <field eval="True" name="global"/>-->
-        <!--            <field name="domain_force">[('id', '=', user.property_warehouse_id.id)]</field>-->
-        <!--        </record>-->
-
         <record id="stock_picking_type_user_global_rule" model="ir.rule">
             <field name="name">Stock Picking Type User GlobalStar</field>
             <field name="model_id" ref="stock.model_stock_picking_type"/>
@@ -24,40 +17,26 @@
             <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
         </record>
 
-<!--        <record id="account_sales_person_global_rule" model="ir.rule">-->
-<!--            <field name="name">Account Sales Person GlobalStar</field>-->
-<!--            <field name="model_id" ref="account.model_account_move"/>-->
-<!--            <field eval="True" name="global"/>-->
-<!--            <field name="domain_force">[('invoice_user_id.id', '=', user.id)]</field>-->
-<!--        </record>-->
-
         <record id="contact_user_global_rule" model="ir.rule">
             <field name="name">Contacts User GlobalStar</field>
             <field name="model_id" ref="stock.model_res_partner"/>
             <field name="domain_force">['|', ('user_id', '=', user.id), ('user_ids', '!=', False)]</field>
-            <field name="groups" eval="[(4, ref('globalstar_customization.group_contacts_user_global'))]"/>
+            <field name="groups" eval="[(4, ref('globalstar_security.group_contacts_user_global'))]"/>
         </record>
 
         <record id="contact_manager_global_rule" model="ir.rule">
             <field name="name">Contacts Manager GlobalStar</field>
             <field name="model_id" ref="stock.model_res_partner"/>
             <field name="domain_force">['|', ('team_id', 'in', user.crm_team_ids.ids), ('user_ids', '!=', False)]</field>
-            <field name="groups" eval="[(4, ref('globalstar_customization.group_contacts_manager_global'))]"/>
+            <field name="groups" eval="[(4, ref('globalstar_security.group_contacts_manager_global'))]"/>
         </record>
 
         <record id="contact_admin_global_rule" model="ir.rule">
             <field name="name">Contacts Admin GlobalStar</field>
             <field name="model_id" ref="stock.model_res_partner"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('globalstar_customization.group_contacts_admin_global'))]"/>
+            <field name="groups" eval="[(4, ref('globalstar_security.group_contacts_admin_global'))]"/>
         </record>
-
-        <!--        <record id="contact_person_global_rule" model="ir.rule">-->
-        <!--            <field name="name">Contact Person GlobalStar</field>-->
-        <!--            <field name="model_id" ref="base.model_res_partner"/>-->
-        <!--            <field eval="True" name="global"/>-->
-        <!--            <field name="domain_force">[('contact_person_id.id', '=', user.id)]</field>-->
-        <!--        </record>-->
 
     </data>
 </odoo>

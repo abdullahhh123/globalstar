@@ -31,6 +31,8 @@ class AccountPaymentGlobal(models.Model):
 class AccountMoveGlobal(models.Model):
     _inherit = 'account.move'
 
+    discount_move_id = fields.Many2one(comodel_name="account.move")
+
     @api.model
     def _search_default_journal(self, journal_types):
         company_id = self._context.get('default_company_id', self.env.company.id)
@@ -68,42 +70,6 @@ class AccountMoveGlobal(models.Model):
                 domain.append(('id', 'in', self.env.user.account_journal_ids.ids))
             m.suitable_journal_ids = self.env['account.journal'].search(domain)
 
-    def action_post(self):
-        super(AccountMoveGlobal, self).action_post()
-        debit_disc = self.env['account.account'].search_read([('customer_discount', '=', 'debit')], fields=['id'],
-                                                             limit=1)
-        credit_disc = self.env['account.account'].search_read([('customer_discount', '=', 'credit')], fields=['id'],
-                                                              limit=1)
-        if debit_disc and credit_disc:
-            for rec in self:
-                if rec.move_type == 'out_invoice':
-                    if rec.partner_id:
-                        if rec.partner_id.invoice_percentage > 0:
-                            disc = rec.partner_id.invoice_percentage * rec.amount_untaxed_signed / 100
-                            self.env['account.move.line'].create([{
-                                'name': _('Customer Discount'),
-                                'move_id': rec.id,
-                                'account_id': debit_disc[0]['id'],
-                                'debit': disc,
-                                'credit': 0,
-                                'is_partner_disc': True,
-                            },
-                                {
-                                    'name': _('Customer Discount'),
-                                    'move_id': rec.id,
-                                    'account_id': credit_disc[0]['id'],
-                                    'debit': 0,
-                                    'credit': disc,
-                                    'is_partner_disc': True,
-                                }]
-                            )
-
-    def button_draft(self):
-        super(AccountMoveGlobal, self).button_draft()
-        for rec in self:
-            if rec.move_type == 'out_invoice':
-                rec.line_ids.filtered(lambda l: l.is_partner_disc).unlink()
-
 
 class AccountMoveLineGlobal(models.Model):
     _inherit = 'account.move.line'
@@ -132,3 +98,4 @@ class AccountJournalGlobal(models.Model):
     _inherit = 'account.journal'
 
     specific_users_ids = fields.Many2many(comodel_name="res.users", relation="journal_user_rel", string="Users")
+    partner_discount = fields.Boolean()

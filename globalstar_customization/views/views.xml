@@ -1,19 +1,6 @@
 <odoo>
     <data>
 
-        <record id="view_account_form_global_inherit" model="ir.ui.view">
-            <field name="name">view_account_form.global.inherit</field>
-            <field name="model">account.account</field>
-            <field name="inherit_id" ref="account.view_account_form"/>
-            <field name="arch" type="xml">
-
-                <xpath expr="//field[@name='allowed_journal_ids']" position="after">
-                    <field name="customer_discount"/>
-                </xpath>
-
-            </field>
-        </record>
-
         <record id="view_partner_form_global" model="ir.ui.view">
             <field name="name">view_partner_form_global</field>
             <field name="model">res.partner</field>
@@ -23,7 +10,6 @@
                 <xpath expr="//field[@name='category_id']" position="after">
                     <field name="c_r"/>
                     <field name="contact_person_id"/>
-                    <field name="invoice_percentage"/>
                 </xpath>
 
                 <xpath expr="//span[@name='address_name']" position="before">
@@ -40,43 +26,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='parent_id']" position="before">
                     <field name="nickname"/>
-                </xpath>
-            </field>
-        </record>
-
-        <record id="sale_order_global_inherit" model="ir.ui.view">
-            <field name="name">Sale Order GlobalStar</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
-                    <attribute name="groups">globalstar_customization.group_confirm_order_globalstar</attribute>
-                </xpath>
-                <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
-                    <attribute name="groups">globalstar_customization.group_confirm_order_globalstar</attribute>
-                </xpath>
-            </field>
-        </record>
-
-        <record id="stock_scrap_form_view_global" model="ir.ui.view">
-            <field name="name">stock_scrap_form_view.global</field>
-            <field name="model">stock.scrap</field>
-            <field name="inherit_id" ref="stock.stock_scrap_form_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='action_validate']" position="attributes">
-                    <attribute name="groups">globalstar_customization.group_confirm_scrap_globalstar</attribute>
-                </xpath>
-            </field>
-        </record>
-
-
-        <record id="view_stock_quant_tree_inventory_editable_global" model="ir.ui.view">
-            <field name="name">view_stock_quant_tree_inventory_editable.global</field>
-            <field name="model">stock.quant</field>
-            <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='action_apply_inventory']" position="attributes">
-                    <attribute name="groups">globalstar_customization.group_confirm_adjustment_globalstar</attribute>
                 </xpath>
             </field>
         </record>
@@ -105,11 +54,9 @@
             <field name="model">account.journal</field>
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
-
                 <xpath expr="//field[@name='account_control_ids']" position="after">
                     <field name="specific_users_ids" widget="many2many_tags"/>
                 </xpath>
-
             </field>
         </record>
 

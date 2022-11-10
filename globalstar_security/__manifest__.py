@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "globalstar_customization",
+    'name': "globalstar_security",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -16,9 +16,11 @@
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base', 'sale_stock', 'account'],
+    'depends': ['base', 'stock', 'sale'],
 
     'data': [
+        'security/group.xml',
+        'demo/demo.xml',
         'views/views.xml',
     ],
 }
