@@ -69,6 +69,7 @@
             </field>
         </record>
 
+
         <record id="view_stock_quant_tree_inventory_editable_global" model="ir.ui.view">
             <field name="name">view_stock_quant_tree_inventory_editable.global</field>
             <field name="model">stock.quant</field>
