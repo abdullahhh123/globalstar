@@ -9,7 +9,7 @@ from collections import defaultdict
 
 
 
-class SaleOrder(models.Model):
+class SaleOrderLineGlobal(models.Model):
     _inherit = 'sale.order.line'
 
     state_type = fields.Selection(string="Type", selection=[('normal', 'Normal'), ('auction', 'Auction'), ],
@@ -19,8 +19,12 @@ class SaleOrder(models.Model):
         'product.product', string='Product',
         domain=lambda self: "[('id','in',%s),('sale_ok', '=', True)]" % (self.env['product.product'].search([('is_great_a','=',True)]).ids if self.state_type == 'normal' else self.env['product.product'].search([('is_great_b','=',True)]).ids ), change_default=True, ondelete='restrict', check_company=True)
 
-
-
+    def _prepare_invoice_line(self, **optional_values):
+        res = super(SaleOrderLineGlobal, self)._prepare_invoice_line()
+        for move in self.move_ids:
+            line = move.move_line_ids.filtered(lambda p: p.product_id.id == self.product_id.id)
+            res['lot_id'] = line.lot_id.id if line else False
+        return res
 
     @api.onchange('discount')
     def limit_discount_type(self):
@@ -220,21 +224,33 @@ class StockMove(models.Model):
                 old_sequence = max(old_sequence) + 1
             else:
                 old_sequence = 1
-            if len(str(old_sequence)) <= 4:
-                sequence = str(rec.product_id.default_code[0:4] if rec.product_id.default_code else '') + '/' + str(rec.picking_id.scheduled_date.date()) + '/' + (4 - len(str(old_sequence))) * '0' + str(old_sequence)
-                lot=self.env['stock.production.lot'].sudo().create({
-                    'name' : sequence,
-                    'product_id' : rec.product_id.id ,
-                    'vendor_id' : rec.picking_id.partner_id.id ,
-                    'seq' : old_sequence ,
-                })
+            if rec.move_line_nosuggest_ids:
+                for line in rec.move_line_nosuggest_ids:
+                    if not line.lot_id:
+                        if len(str(old_sequence)) <= 4:
+                            sequence = str(rec.product_id.default_code[0:4] if rec.product_id.default_code else '') + '/' + str(rec.picking_id.scheduled_date.date()) + '/' + (4 - len(str(old_sequence))) * '0' + str(old_sequence)
+                            lot=self.env['stock.production.lot'].sudo().create({
+                                'name' : sequence,
+                                'product_id' : rec.product_id.id ,
+                                'vendor_id' : rec.picking_id.partner_id.id ,
+                                'seq' : old_sequence ,
+                            })
+                            line.lot_id = lot.id
 
-                lines.append([0, 0,{
-                    'product_id': rec.product_id.id,
-                    'location_dest_id' : rec.location_dest_id.id,
-                    'lot_id' : lot.id,
-                    'product_uom_id': rec.product_uom.id,
-                }])
-                rec.move_line_nosuggest_ids = lines
+            else:
+                if len(str(old_sequence)) <= 4:
+                    sequence = str(rec.product_id.default_code[0:4] if rec.product_id.default_code else '') + '/' + str(rec.picking_id.scheduled_date.date()) + '/' + (4 - len(str(old_sequence))) * '0' + str(old_sequence)
+                    lot=self.env['stock.production.lot'].sudo().create({
+                        'name' : sequence,
+                        'product_id' : rec.product_id.id ,
+                        'vendor_id' : rec.picking_id.partner_id.id ,
+                        'seq' : old_sequence ,
+                    })
 
-
+                    lines.append([0, 0,{
+                        'product_id': rec.product_id.id,
+                        'location_dest_id' : rec.location_dest_id.id,
+                        'lot_id' : lot.id,
+                        'product_uom_id': rec.product_uom.id,
+                    }])
+                    rec.move_line_nosuggest_ids = lines
